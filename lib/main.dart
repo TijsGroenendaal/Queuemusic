@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/helper/DatabaseHelper.dart';
 import 'package:queuemusic/screens/DashboardScreen.dart';
+import 'package:queuemusic/screens/SplashScreen.dart';
 
 void main() {
   _initialize().whenComplete(() => runApp(const MyApp()));
@@ -61,10 +62,11 @@ class _MyHomePageState extends State<MyHomePage> {
       debugShowCheckedModeBanner: false,
       title: widget.title,
       routes: {
-        DashboardScreen.route: (_) => const DashboardScreen(),
-        "/": (_) => const DashboardScreen(),
+        DashboardScreen.route:  (_) => const DashboardScreen(),
+        SplashScreen.route:     (_) => const SplashScreen(),
+        "/":                    (_) => const SplashScreen(),
       },
-      initialRoute: '/',
+      initialRoute: "/",
     );
   }
 }
