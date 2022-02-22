@@ -5,15 +5,12 @@ import 'package:queuemusic/helper/DatabaseHelper.dart';
 import 'package:queuemusic/screens/DashboardScreen.dart';
 
 void main() {
+  _initialize().whenComplete(() => runApp(const MyApp()));
+}
 
-  Firebase.initializeApp().whenComplete(() => {
-
-    DatabaseHelper.initialize().whenComplete(() => {
-      runApp(const MyApp())
-    })
-
-  });
-
+Future<void> _initialize() async {
+  await Firebase.initializeApp();
+  await DatabaseHelper.initialize();
 }
 
 class MyApp extends StatelessWidget {
