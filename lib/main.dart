@@ -1,13 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
+import 'package:queuemusic/helper/DatabaseHelper.dart';
 import 'package:queuemusic/screens/DashboardScreen.dart';
 
 void main() {
-  runApp(const MyApp());
+
   Firebase.initializeApp().whenComplete(() => {
-    // TODO resolve Destination
+
+    DatabaseHelper.initialize().whenComplete(() => {
+      runApp(const MyApp())
+    })
+
   });
+
 }
 
 class MyApp extends StatelessWidget {
