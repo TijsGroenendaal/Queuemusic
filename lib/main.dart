@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
       routes: {
         DashboardScreen.route:  (_) => const DashboardScreen(),
         SplashScreen.route:     (_) => const SplashScreen(),
-        "/":                    (_) => const SplashScreen(),
+        '/':                    (_) => const SplashScreen(),
       },
       initialRoute: "/",
     );

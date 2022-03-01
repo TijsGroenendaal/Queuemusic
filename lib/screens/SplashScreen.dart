@@ -29,5 +29,4 @@ class SplashScreen extends StatelessWidget {
 
     Navigator.pushReplacementNamed(context, destination);
   }
-
 }
