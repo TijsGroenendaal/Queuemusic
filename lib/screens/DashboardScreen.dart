@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+
+import '../models/Session.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const route = "Dashboard";
@@ -12,8 +15,16 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Consumer<Session>(
+      builder: (context, session, child) {
+        if (session.inSession) {
+          // TODO SessionScreen
+          throw UnimplementedError();
+        } else {
+          // TODO LikedSongsPlaylist
+          throw UnimplementedError();
+        }
+      },
+    );
   }
-
 }
