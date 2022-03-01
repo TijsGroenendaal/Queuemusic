@@ -21,7 +21,7 @@ class DatabaseHelper {
 
   static void _buildDatabase(Database db, int version) async {
     Batch batch = db.batch();
-    batch.execute("CREATE TABLE songs (playlist VARCHAR, identifier VARCHAR, songname VARCHAR, songId VARCHAR, authors VARCHAR");
+    batch.execute("CREATE TABLE likedsongs (identifier VARCHAR, songname VARCHAR, songId VARCHAR, authors VARCHAR");
     // might add new tables in the future
     await batch.commit(noResult: true);
   }
