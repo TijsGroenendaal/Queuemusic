@@ -1,17 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
-import 'package:queuemusic/helper/DatabaseHelper.dart';
+import 'package:queuemusic/helper/DataHelper.dart';
 import 'package:queuemusic/screens/DashboardScreen.dart';
 import 'package:queuemusic/screens/SplashScreen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   _initialize().whenComplete(() => runApp(const MyApp()));
 }
 
 Future<void> _initialize() async {
   await Firebase.initializeApp();
-  await DatabaseHelper.initialize();
+  await DataHelper.initialize();
 }
 
 class MyApp extends StatelessWidget {
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'QueueMusic',
       theme: ThemeData(
         textTheme: const TextTheme(
