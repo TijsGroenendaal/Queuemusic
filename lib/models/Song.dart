@@ -1,8 +1,17 @@
 class Song {
-  final String songId;
+  final String album;
   final String songName;
   final String authors;
-  final String identifier;
+  final String id;
 
-  Song(this.songId, this.songName, this.authors, this.identifier);
+  Song(this.album, this.songName, this.authors, this.id);
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      "album": album,
+      "songName": songName,
+      "authors": authors,
+      "id": id
+    };
+  }
 }

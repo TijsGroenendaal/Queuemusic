@@ -14,10 +14,11 @@ class DataHelper {
     _initializeDatabase();
   }
 
-
   static void _initializeDatabase() async {
     Directory defPath = await getApplicationDocumentsDirectory();
     String databasePath = paths.join(defPath.path, 'queuemusic.db');
+
+    // deleteDatabase(databasePath);
 
     db = SqfliteHelper(await openDatabase(
         databasePath,
@@ -29,7 +30,7 @@ class DataHelper {
 
   static void _buildDatabase(Database db, int version) async {
     Batch batch = db.batch();
-    batch.execute("CREATE TABLE likedsongs (identifier VARCHAR, songname VARCHAR, songId VARCHAR, authors VARCHAR);");
+    batch.execute("CREATE TABLE likedsongs (id VARCHAR, songname VARCHAR, album VARCHAR, authors VARCHAR);");
     // might add new tables in the future
     await batch.commit(noResult: true);
   }

@@ -5,7 +5,7 @@ import '../models/Song.dart';
 
 class SqfliteHelper implements StorageSolution {
 
-  Database _db;
+  final Database _db;
 
   SqfliteHelper(this._db);
 
@@ -14,17 +14,22 @@ class SqfliteHelper implements StorageSolution {
     List<Song> toReturn = [];
     _db.query('likedsongs', limit: 50).then((value) => value.forEach((element) {
       toReturn.add(Song(
-          element["songId"].toString(),
+          element["album"].toString(),
           element["songName"].toString(),
           element["authors"].toString(),
-          element["identifier"].toString()
+          element["id"].toString()
       ));
     }));
     return toReturn;
   }
 
   @override
-  void deleteSong(String songId) {
-    _db.delete('likedsongs', where: 'songId = ?', whereArgs: [songId]);
+  void deleteSong(String id) {
+    _db.delete('likedsongs', where: 'id = ?', whereArgs: [id]);
+  }
+
+  @override
+  void addSong(Song song) {
+    _db.insert('likedsongs', song.toMap());
   }
 }
