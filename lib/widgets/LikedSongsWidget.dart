@@ -23,35 +23,34 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
         appBar: AppBar(
           title: const Text("Liked Songs"),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            constraints: const BoxConstraints(
-              maxWidth: 600
-            ),
-            child: FutureBuilder<List<Widget>>(
-              future: _buildSongList(),
-              builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
-                if (snapshot.hasError) {
-                  return ListView(
-                    children: [_buildStorageNotAvailableTile()],
-                  );
+        body: FutureBuilder<List<Song>>(
+          future: _getSongs(),
+          builder: (BuildContext context, AsyncSnapshot<List<Song>> snapshot) {
+            if (snapshot.hasError) {
+              return ListView(
+                children: [_buildStorageNotAvailableTile()],
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.data!.isEmpty) {
+                return _buildNoSongFoundTile();
+              }
+              return ListView.separated(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: snapshot.data!.length,
+                separatorBuilder: (BuildContext context, int index) => const Divider(),
+                itemBuilder: (context, index) {
+                  return _buildSongTile(snapshot.data![index]);
                 }
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.data!.isEmpty) {
-                    return _buildNoSongFoundTile();
-                  }
-                  return ListView(
-                    children: snapshot.data!,
-                  );
-                }
+              );
+            }
 
-                return ListView(
-                  children: [_buildStorageNotAvailableTile()],
-                );
-              },
-            ),
-          ),
+            return ListView(
+              children: [_buildStorageNotAvailableTile()],
+            );
+          },
         ),
         floatingActionButton: DataHelper.db == null ? null : FloatingActionButton.extended(
           onPressed: () => _addSong(context),
@@ -61,18 +60,9 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
       ),
     );
   }
-  Future<List<Widget>> _buildSongList() async {
-    List<Widget> containers = [];
-    if (DataHelper.db == null) return [_buildStorageNotAvailableTile()];
-    List<Song>? playlist = await DataHelper.db?.loadSongs();
-    if (playlist == null) return [_buildNoSongFoundTile()];
-    if (playlist.isEmpty) return [_buildNoSongFoundTile()];
 
-    for (Song song in playlist) {
-      print(song);
-      containers.add(_buildSongTile(song));
-    }
-    return containers;
+  Future<List<Song>> _getSongs() async {
+    return DataHelper.db!.loadSongs();
   }
 
   ListTile _buildSongTile(Song song) {
@@ -82,6 +72,7 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
       trailing: IconButton(
         onPressed: () {
           DataHelper.db?.deleteSong(song.id);
+          setState(() {});
         },
         icon: const Icon(Icons.delete),
         iconSize: 25,
