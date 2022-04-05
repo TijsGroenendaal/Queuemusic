@@ -2,8 +2,8 @@ import 'package:queuemusic/models/Song.dart';
 
 abstract class StorageSolution {
 
-  List<Song> loadSongs();
-  void deleteSong(String songId);
-  void addSong(Song song);
+  Future<List<Song>> loadSongs();
+  Future<void> deleteSong(String songId);
+  Future<void> addSong(Song song);
 
 }

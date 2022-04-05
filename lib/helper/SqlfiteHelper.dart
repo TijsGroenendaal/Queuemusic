@@ -10,12 +10,12 @@ class SqfliteHelper implements StorageSolution {
   SqfliteHelper(this._db);
 
   @override
-  List<Song> loadSongs() {
+  Future<List<Song>> loadSongs() async {
     List<Song> toReturn = [];
-    _db.query('likedsongs', limit: 50).then((value) => value.forEach((element) {
+    await _db.rawQuery("SELECT * FROM likedsongs;").then((value) => value.forEach((element) {
       toReturn.add(Song(
           element["album"].toString(),
-          element["songName"].toString(),
+          element["songname"].toString(),
           element["authors"].toString(),
           element["id"].toString()
       ));
@@ -24,12 +24,12 @@ class SqfliteHelper implements StorageSolution {
   }
 
   @override
-  void deleteSong(String id) {
-    _db.delete('likedsongs', where: 'id = ?', whereArgs: [id]);
+  Future<void> deleteSong(String id) async {
+    await _db.delete('likedsongs', where: 'id = ?', whereArgs: [id]);
   }
 
   @override
-  void addSong(Song song) {
-    _db.insert('likedsongs', song.toMap());
+  Future<void> addSong(Song song) async {
+    await _db.rawInsert("INSERT INTO likedsongs (id, songname, album, authors) VALUES ('${song.id}', '${song.songname}', '${song.album}', '${song.authors}');");
   }
 }

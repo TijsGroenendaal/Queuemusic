@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:queuemusic/common/QueueMusicColor.dart';
+import 'package:queuemusic/common/QueueMusicTheme.dart';
 import 'package:queuemusic/helper/DataHelper.dart';
 import 'package:queuemusic/screens/DashboardScreen.dart';
 import 'package:queuemusic/screens/SplashScreen.dart';
@@ -23,24 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'QueueMusic',
-      theme: ThemeData(
-        textTheme: const TextTheme(
-          bodyText1: TextStyle(
-            color: QueueMusicColor.white,
-          ),
-          subtitle1: TextStyle(
-            color: QueueMusicColor.grey,
-          )
-        ),
-        scaffoldBackgroundColor: QueueMusicColor.black,
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(
-            color: QueueMusicColor.white,
-          ),
-          backgroundColor: QueueMusicColor.black600,
-        ),
-        backgroundColor: QueueMusicColor.black,
-      ),
+      theme: theme(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

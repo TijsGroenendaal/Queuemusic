@@ -1,62 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
+import 'package:queuemusic/common/QueueMusicTheme.dart';
 import 'package:queuemusic/helper/DataHelper.dart';
+import 'package:queuemusic/widgets/AddSongWidget.dart';
 
 import '../models/Song.dart';
 
-class LikedSongsWidget extends StatelessWidget {
-  const LikedSongsWidget ({Key? key}) : super(key: key);
+class LikedSongsWidget extends StatefulWidget {
+  const LikedSongsWidget({Key? key}) : super(key: key);
+
+  @override
+  _LikedSongsWidgetState createState() => _LikedSongsWidgetState();
+}
+
+class _LikedSongsWidgetState extends State<LikedSongsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Liked Songs"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
+    return Theme(
+      data: theme(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Liked Songs"),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Container(
             constraints: const BoxConstraints(
               maxWidth: 600
             ),
-            child: ListView(
-              scrollDirection: Axis.vertical,
-              children: _buildSongList(),
+            child: FutureBuilder<List<Widget>>(
+              future: _buildSongList(),
+              builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+                if (snapshot.hasError) {
+                  return ListView(
+                    children: [_buildStorageNotAvailableTile()],
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.data!.isEmpty) {
+                    return _buildNoSongFoundTile();
+                  }
+                  return ListView(
+                    children: snapshot.data!,
+                  );
+                }
+
+                return ListView(
+                  children: [_buildStorageNotAvailableTile()],
+                );
+              },
             ),
           ),
         ),
-      ),
-      floatingActionButton: DataHelper.db == null ? null : FloatingActionButton.extended(
-          onPressed: _addSong,
+        floatingActionButton: DataHelper.db == null ? null : FloatingActionButton.extended(
+          onPressed: () => _addSong(context),
           label: const Text("ADD"),
-          icon: const Icon(Icons.add, color: QueueMusicColor.green750,),
+          icon: const Icon(Icons.add),
+        ),
       ),
     );
   }
-
-  List<Widget> _buildSongList() {
+  Future<List<Widget>> _buildSongList() async {
     List<Widget> containers = [];
     if (DataHelper.db == null) return [_buildStorageNotAvailableTile()];
-    List<Song>? playlist = DataHelper.db?.loadSongs();
+    List<Song>? playlist = await DataHelper.db?.loadSongs();
     if (playlist == null) return [_buildNoSongFoundTile()];
     if (playlist.isEmpty) return [_buildNoSongFoundTile()];
 
     for (Song song in playlist) {
+      print(song);
       containers.add(_buildSongTile(song));
-      containers.add(const Divider(thickness: 2, color: QueueMusicColor.black500));
     }
     return containers;
   }
 
   ListTile _buildSongTile(Song song) {
     return ListTile(
-      shape: RoundedRectangleBorder(side:  const BorderSide(color: QueueMusicColor.grey, width: 1), borderRadius: BorderRadius.circular(5)),
-      title: Text(song.songName),
-      subtitle: Text(song.authors),
+      title: Text("${song.songname}, ${song.album}"),
+      subtitle: Text(song.authors, style: TextStyle(color: QueueMusicColor.grey),),
       trailing: IconButton(
         onPressed: () {
-          // TODO remove song
+          DataHelper.db?.deleteSong(song.id);
         },
         icon: const Icon(Icons.delete),
         iconSize: 25,
@@ -67,21 +92,28 @@ class LikedSongsWidget extends StatelessWidget {
 
   ListTile _buildNoSongFoundTile() {
     return ListTile(
-      shape: RoundedRectangleBorder(side:  const BorderSide(color: QueueMusicColor.grey, width: 1), borderRadius: BorderRadius.circular(5)),
       title: const Text("No Song Found"),
-      subtitle: const Text("Add a Song"),
-      onTap: _addSong,
+      subtitle: Text("Add a Song", style: theme().textTheme.bodyText2,),
+      trailing: IconButton(
+        icon: Icon(Icons.add, color: theme().iconTheme.color,),
+        onPressed: () => _addSong(context),
+      ),
     );
   }
 
   ListTile _buildStorageNotAvailableTile() {
-    return ListTile(
-      shape: RoundedRectangleBorder(side:  const BorderSide(color: QueueMusicColor.grey, width: 1), borderRadius: BorderRadius.circular(5)),
-      title: const Text("Storage not available"),
+    return const ListTile(
+      title: Text("Storage not available"),
     );
   }
 
-  void _addSong() {
-    // TODO add song
+  void _addSong(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => AddSongWidget(callback: callback,))
+    );
+  }
+
+  void callback() {
+    setState(() {});
   }
 }

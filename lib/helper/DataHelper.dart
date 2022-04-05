@@ -23,7 +23,7 @@ class DataHelper {
     db = SqfliteHelper(await openDatabase(
         databasePath,
         version: 1,
-        // will only execute of no database with the name `queuemusic.db` is found.
+        // will only execute if no database with the name `queuemusic.db` is found.
         onCreate: _buildDatabase
     ));
   }
