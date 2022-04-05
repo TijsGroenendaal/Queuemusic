@@ -23,34 +23,37 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
         appBar: AppBar(
           title: const Text("Liked Songs"),
         ),
-        body: FutureBuilder<List<Song>>(
-          future: _getSongs(),
-          builder: (BuildContext context, AsyncSnapshot<List<Song>> snapshot) {
-            if (snapshot.hasError) {
+        body: Container(
+          padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+          child: FutureBuilder<List<Song>>(
+            future: _getSongs(),
+            builder: (BuildContext context, AsyncSnapshot<List<Song>> snapshot) {
+              if (snapshot.hasError) {
+                return ListView(
+                  children: [_buildStorageNotAvailableTile()],
+                );
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.data!.isEmpty) {
+                  return _buildNoSongFoundTile();
+                }
+                return ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.length,
+                  separatorBuilder: (BuildContext context, int index) => const Divider(),
+                  itemBuilder: (context, index) {
+                    return _buildSongTile(snapshot.data![index]);
+                  }
+                );
+              }
+
               return ListView(
                 children: [_buildStorageNotAvailableTile()],
               );
-            }
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.data!.isEmpty) {
-                return _buildNoSongFoundTile();
-              }
-              return ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length,
-                separatorBuilder: (BuildContext context, int index) => const Divider(),
-                itemBuilder: (context, index) {
-                  return _buildSongTile(snapshot.data![index]);
-                }
-              );
-            }
-
-            return ListView(
-              children: [_buildStorageNotAvailableTile()],
-            );
-          },
+            },
+          ),
         ),
         floatingActionButton: DataHelper.db == null ? null : FloatingActionButton.extended(
           onPressed: () => _addSong(context),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
+import 'package:queuemusic/widgets/MenuWidget.dart';
 import '../widgets/LikedSongsWidget.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -49,7 +50,7 @@ class _DashboardState extends State<DashboardScreen> {
             unselectedItemColor: QueueMusicColor.grey,
             unselectedIconTheme: IconThemeData(color: QueueMusicColor.grey),
             selectedFontSize: 12,
-            backgroundColor: QueueMusicColor.black750,
+            backgroundColor: QueueMusicColor.black600,
             onTap: _onItemTapped,
           ),
         )
