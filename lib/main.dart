@@ -5,11 +5,11 @@ import 'package:queuemusic/screens/SplashScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(QueueMusic());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class QueueMusic extends StatelessWidget {
+  const QueueMusic({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +17,21 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'QueueMusic',
       theme: theme(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const QueueMusicPage(title: 'QueueMusic'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class QueueMusicPage extends StatefulWidget {
+  const QueueMusicPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<QueueMusicPage> createState() => _QueueMusicPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _QueueMusicPageState extends State<QueueMusicPage> {
 
   @override
   Widget build(BuildContext context) {
