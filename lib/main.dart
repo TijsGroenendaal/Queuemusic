@@ -1,18 +1,11 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
-import 'package:queuemusic/helper/DataHelper.dart';
 import 'package:queuemusic/screens/DashboardScreen.dart';
 import 'package:queuemusic/screens/SplashScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  _initialize().whenComplete(() => runApp(const MyApp()));
-}
-
-Future<void> _initialize() async {
-  await Firebase.initializeApp();
-  await DataHelper.initialize();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

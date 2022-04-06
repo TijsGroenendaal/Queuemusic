@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
 import 'package:queuemusic/screens/DashboardScreen.dart';
+
+import '../helper/DataHelper.dart';
 
 class SplashScreen extends StatelessWidget {
   static const route = "Splash";
@@ -13,7 +16,7 @@ class SplashScreen extends StatelessWidget {
     _resolveDestination(context, DashboardScreen.route);
     return Theme(
       data: theme(),
-      child: Scaffold(
+      child: const Scaffold(
         body: Center(
           child: SizedBox(
             child: CircularProgressIndicator(
@@ -29,8 +32,12 @@ class SplashScreen extends StatelessWidget {
   }
 
   Future<void> _resolveDestination(BuildContext buildcontext, String destination) async {
-    await Future.delayed(const Duration(seconds: 2));
-
+    await _initialize();
     Navigator.pushReplacementNamed(buildcontext, destination);
+  }
+
+  Future<void> _initialize() async {
+    await Firebase.initializeApp();
+    await DataHelper.initialize();
   }
 }
