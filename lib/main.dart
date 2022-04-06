@@ -5,21 +5,7 @@ import 'package:queuemusic/screens/SplashScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(QueueMusic());
-}
-
-class QueueMusic extends StatelessWidget {
-  const QueueMusic({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'QueueMusic',
-      theme: theme(),
-      home: const QueueMusicPage(title: 'QueueMusic'),
-    );
-  }
+  runApp(const QueueMusicPage(title: 'QueueMusic'));
 }
 
 class QueueMusicPage extends StatefulWidget {
@@ -38,6 +24,7 @@ class _QueueMusicPageState extends State<QueueMusicPage> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: theme(),
       title: widget.title,
       routes: {
         DashboardScreen.route:  (_) => const DashboardScreen(),
