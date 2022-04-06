@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
+import 'package:queuemusic/widgets/TextFieldWidget.dart';
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({Key? key}) : super(key: key);
@@ -11,6 +12,9 @@ class MenuWidget extends StatefulWidget {
 }
 
 class _MenuWidgetState extends State<MenuWidget> {
+
+  TextEditingController usernameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -19,25 +23,32 @@ class _MenuWidgetState extends State<MenuWidget> {
         appBar: AppBar(
           title: Text("Home"),
         ),
-        body: Center(
+        body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                TextFieldWidget(
+                    usernameController,
+                    "Username",
+                    32,
+                    BoolWrapper(true)
+                ),
+                SizedBox(height: 15,),
                 ListTile(
                   title: Text("Host Session"),
                   trailing: IconButton(
-                    onPressed: () {},
+                    onPressed: () => _host(),
                     icon: Icon(CupertinoIcons.arrow_right),
                     color: QueueMusicColor.green,
                     iconSize: 40,
                   ),
                 ),
+                SizedBox(height: 5,),
                 ListTile(
                   title: Text("Join Session"),
                   trailing: IconButton(
-                    onPressed: () {},
+                    onPressed: () => _join(),
                     icon: Icon(CupertinoIcons.arrow_right),
                     color: QueueMusicColor.green,
                     iconSize: 40,
@@ -46,8 +57,16 @@ class _MenuWidgetState extends State<MenuWidget> {
               ],
             ),
           ),
-        ),
+        )
       ),
     );
+  }
+
+  void _host() {
+
+  }
+
+  void _join() {
+
   }
 }
