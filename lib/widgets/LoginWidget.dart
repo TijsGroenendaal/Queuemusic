@@ -51,22 +51,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(QueueMusicColor.green),
                 ),
-                onPressed: () async {
-                  try {
-                    UserCredential user = await _auth.signInWithEmailAndPassword(
-                        email: emailController.value.text,
-                        password: passwordController.value.text
-                    );
-                    String sessionCode = const Uuid().v1();
-                    Provider.of<Session>(context, listen: false).joinSession(user.user!.uid, sessionCode);
-                    FirebaseFirestore.instance.collection("sessions").add({
-                      "sessionCode" : sessionCode,
-                      "activeUntil" : DateTime.now().add(Duration(hours: 2)),
-                    });
-                    Navigator.pop(context);
-                  } catch(e) {
-                    // TODO login failed popup
-                  }
+                onPressed: () {
+                  hostSessionHandler();
                 },
                 icon: Icon(Icons.login),
                 label: Text("Login"),
@@ -76,5 +62,36 @@ class _LoginWidgetState extends State<LoginWidget> {
         ),
       ),
     );
+  }
+
+  void hostSessionHandler() async {
+    try {
+      UserCredential user = await _auth.signInWithEmailAndPassword(
+          email: emailController.value.text,
+          password: passwordController.value.text
+      );
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("sessions")
+          .where('host', isEqualTo: user.user!.uid)
+          .where("activeUntil", isGreaterThan: DateTime.now())
+          .where("open", isEqualTo: true)
+          .get();
+      if (snapshot.docs.isNotEmpty) {
+        Provider.of<Session>(context, listen: false).joinSession(snapshot.docs[0].get("host"), snapshot.docs[0].get("sessionCode"));
+        Navigator.pop(context);
+        return;
+      }
+      String sessionCode = const Uuid().v1();
+      Provider.of<Session>(context, listen: false).joinSession(user.user!.uid, sessionCode);
+      FirebaseFirestore.instance.collection("sessions").add({
+        "sessionCode" : sessionCode,
+        "activeUntil" : DateTime.now().add(Duration(hours: 2)),
+        "open": true,
+        "host": user.user!.uid,
+        "songs": []
+      });
+      Navigator.pop(context);
+    } catch(e) {
+      // TODO login failed popup
+    }
   }
 }
