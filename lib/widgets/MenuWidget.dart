@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
 import 'package:queuemusic/widgets/JoinWidget.dart';
-import 'package:queuemusic/widgets/LoginWidget.dart';
+import 'package:queuemusic/widgets/HostWidget.dart';
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({Key? key}) : super(key: key);
@@ -54,7 +54,7 @@ class _MenuWidgetState extends State<MenuWidget> {
 
   void _host() {
     Navigator.push(context, MaterialPageRoute(
-        builder: (context) => LoginWidget())
+        builder: (context) => HostWidget())
     );
   }
 

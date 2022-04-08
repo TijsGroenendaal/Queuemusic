@@ -9,14 +9,14 @@ import 'package:uuid/uuid.dart';
 
 import '../models/Session.dart';
 
-class LoginWidget extends StatefulWidget {
-  const LoginWidget({Key? key}) : super(key: key);
+class HostWidget extends StatefulWidget {
+  const HostWidget({Key? key}) : super(key: key);
 
   @override
-  _LoginWidgetState createState() => _LoginWidgetState();
+  _HostWidgetState createState() => _HostWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _HostWidgetState extends State<HostWidget> {
   final _auth = FirebaseAuth.instance;
 
   TextEditingController emailController = TextEditingController();
