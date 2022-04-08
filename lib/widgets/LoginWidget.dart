@@ -31,7 +31,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           title: Text("Login to Host"),
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.all(20),
           child: Column(
             children: [
               TextFieldWidget(
@@ -47,15 +47,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                   BoolWrapper(true)
               ),
               SizedBox(height: 20,),
-              ElevatedButton.icon(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(QueueMusicColor.green),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(QueueMusicColor.green),
+                  ),
+                  onPressed: () {
+                    hostSessionHandler();
+                  },
+                  icon: Icon(Icons.login),
+                  label: Text("Login"),
                 ),
-                onPressed: () {
-                  hostSessionHandler();
-                },
-                icon: Icon(Icons.login),
-                label: Text("Login"),
               )
             ],
           ),

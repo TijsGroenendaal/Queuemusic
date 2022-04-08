@@ -35,13 +35,16 @@ class AddSongWidget extends StatelessWidget {
                   TextFieldWidget(songNameController, "Song name", 64, BoolWrapper(true)),
                   TextFieldWidget(authorController, "Author('s)", 64, BoolWrapper(true)),
                   TextFieldWidget(albumController, "Album, optional", 64, BoolWrapper(true)),
-                  ElevatedButton.icon(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(QueueMusicColor.green),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(QueueMusicColor.green),
+                      ),
+                      onPressed: () => _addSong(context),
+                      icon: const Icon(Icons.add),
+                      label: const Text("Add"),
                     ),
-                    onPressed: () => _addSong(context),
-                    icon: const Icon(Icons.add),
-                    label: const Text("Add"),
                   )
                 ],
               ),

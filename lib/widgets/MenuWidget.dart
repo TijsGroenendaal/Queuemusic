@@ -22,7 +22,7 @@ class _MenuWidgetState extends State<MenuWidget> {
           title: Text("Home"),
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.all(20),
           child: Column(
             children: [
               SizedBox(height: 15,),

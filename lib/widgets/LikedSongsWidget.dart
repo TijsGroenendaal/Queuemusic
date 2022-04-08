@@ -24,7 +24,7 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
           title: const Text("Liked Songs"),
         ),
         body: Container(
-          padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+          padding: EdgeInsets.all(20),
           child: FutureBuilder<List<Song>>(
             future: _getSongs(),
             builder: (BuildContext context, AsyncSnapshot<List<Song>> snapshot) {
