@@ -23,32 +23,30 @@ class _MenuWidgetState extends State<MenuWidget> {
           title: Text("Home"),
         ),
         body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                SizedBox(height: 15,),
-                ListTile(
-                  title: Text("Host Session"),
-                  trailing: IconButton(
-                    onPressed: () => _host(),
-                    icon: Icon(CupertinoIcons.arrow_right),
-                    color: QueueMusicColor.green,
-                    iconSize: 40,
-                  ),
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              SizedBox(height: 15,),
+              ListTile(
+                title: Text("Host Session"),
+                trailing: IconButton(
+                  onPressed: () => _host(),
+                  icon: Icon(CupertinoIcons.arrow_right),
+                  color: QueueMusicColor.green,
+                  iconSize: 40,
                 ),
-                SizedBox(height: 5,),
-                ListTile(
-                  title: Text("Join Session"),
-                  trailing: IconButton(
-                    onPressed: () => _join(),
-                    icon: Icon(CupertinoIcons.arrow_right),
-                    color: QueueMusicColor.green,
-                    iconSize: 40,
-                  ),
+              ),
+              SizedBox(height: 5,),
+              ListTile(
+                title: Text("Join Session"),
+                trailing: IconButton(
+                  onPressed: () => _join(),
+                  icon: Icon(CupertinoIcons.arrow_right),
+                  color: QueueMusicColor.green,
+                  iconSize: 40,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         )
       ),
