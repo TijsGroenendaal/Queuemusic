@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
+import 'package:queuemusic/widgets/JoinWidget.dart';
 import 'package:queuemusic/widgets/LoginWidget.dart';
 
 class MenuWidget extends StatefulWidget {
@@ -58,6 +59,8 @@ class _MenuWidgetState extends State<MenuWidget> {
   }
 
   void _join() {
-
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => JoinWidget())
+    );
   }
 }
