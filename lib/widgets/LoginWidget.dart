@@ -83,7 +83,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         Navigator.pop(context);
         return;
       }
-      String sessionCode = const Uuid().v1();
+      String sessionCode = const Uuid().v1().substring(24);
       Provider.of<Session>(context, listen: false).joinSession(user.user!.uid, sessionCode);
       FirebaseFirestore.instance.collection("sessions").add({
         "sessionCode" : sessionCode,
