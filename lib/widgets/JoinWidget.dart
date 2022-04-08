@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
+import 'package:queuemusic/helper/SnackbarHelper.dart';
 import 'package:queuemusic/widgets/QrScannerWidget.dart';
 import 'package:queuemusic/widgets/TextFieldWidget.dart';
+
+import '../models/Session.dart';
 
 class JoinWidget extends StatefulWidget {
   const JoinWidget({Key? key}) : super(key: key);
@@ -62,7 +67,7 @@ class _JoinWidgetState extends State<JoinWidget> {
                       backgroundColor: MaterialStateProperty.all(QueueMusicColor.green750),
                       padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 20))
                     ),
-                    onPressed: () {},
+                    onPressed: () => _join(),
                     icon: Icon(Icons.login),
                     label: Text("Join")
                   ),
@@ -71,7 +76,23 @@ class _JoinWidgetState extends State<JoinWidget> {
             ),
           )
       ),
-
     );
+  }
+  
+  void _join() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("sessions")
+        .where("sessionCode", isEqualTo: sessionCodeController.value.text)
+        .where("activeUntil", isGreaterThan: DateTime.now())
+        .where("open", isEqualTo: true)
+        .get();
+
+    if (querySnapshot.docs.isEmpty) {
+      SnackbarHelper.deploy(Text("Invalid Session Code"), context);
+      return;
+    }
+
+    QueryDocumentSnapshot doc = querySnapshot.docs[0];
+    Provider.of<Session>(context, listen: false).joinSession(doc.get("host"), doc.get("sessionCode"));
+    Navigator.pop(context);
   }
 }
