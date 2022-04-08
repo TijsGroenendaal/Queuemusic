@@ -5,10 +5,12 @@ class Session with ChangeNotifier implements Exception {
 
   late String _sessionCode;
   late String _hostUser;
-  bool inSession = false;
+  bool _inSession = false;
+
+  bool get inSession => _inSession;
 
   String get sessionCode {
-    if (inSession) return _sessionCode;
+    if (_inSession) return _sessionCode;
     throw error();
   }
 
@@ -17,7 +19,7 @@ class Session with ChangeNotifier implements Exception {
   }
 
   String get hostUser {
-    if (inSession) return _hostUser;
+    if (_inSession) return _hostUser;
     throw error();
   }
 
@@ -28,13 +30,13 @@ class Session with ChangeNotifier implements Exception {
   void joinSession(String hostUser, String sessionCode) {
     this.hostUser = hostUser;
     this.sessionCode = sessionCode;
-    inSession = true;
+    _inSession = true;
 
     notifyListeners();
   }
 
   void leaveSession() {
-    inSession = false;
+    _inSession = false;
 
     notifyListeners();
   }

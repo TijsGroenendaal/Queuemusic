@@ -57,14 +57,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                         email: emailController.value.text,
                         password: passwordController.value.text
                     );
-                    Session session = Provider.of<Session>(context, listen: false);
-                    session.inSession = true;
-                    session.hostUser = user.user!.uid;
                     String sessionCode = const Uuid().v1();
-                    session.sessionCode = sessionCode;
+                    Provider.of<Session>(context, listen: false).joinSession(user.user!.uid, sessionCode);
                     FirebaseFirestore.instance.collection("sessions").add({
                       "sessionCode" : sessionCode,
-                      "active" : true,
+                      "activeUntil" : DateTime.now().add(Duration(hours: 2)),
                     });
                     Navigator.pop(context);
                   } catch(e) {

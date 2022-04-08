@@ -17,7 +17,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<Session>(
         builder: (context, session, child) {
           if (session.inSession) {
-            throw UnimplementedError();
+            return Scaffold(
+              body: Center(child: Text("SESSION"),),
+            );
           } else {
             return const MenuWidget();
           }
