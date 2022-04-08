@@ -6,6 +6,8 @@ import 'package:queuemusic/models/Song.dart';
 import 'package:queuemusic/widgets/TextFieldWidget.dart';
 import 'package:uuid/uuid.dart';
 
+import '../common/QueueMusicColor.dart';
+
 class AddSongWidget extends StatelessWidget {
   AddSongWidget({Key? key, required this.callback}) : super(key: key);
 
@@ -34,6 +36,9 @@ class AddSongWidget extends StatelessWidget {
                   TextFieldWidget(authorController, "Author('s)", 64, BoolWrapper(true)),
                   TextFieldWidget(albumController, "Album, optional", 64, BoolWrapper(true)),
                   ElevatedButton.icon(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(QueueMusicColor.green),
+                    ),
                     onPressed: () => _addSong(context),
                     icon: const Icon(Icons.add),
                     label: const Text("Add"),
