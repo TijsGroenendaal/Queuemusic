@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
+import 'package:queuemusic/models/Session.dart';
 import 'package:queuemusic/screens/DashboardScreen.dart';
 import 'package:queuemusic/screens/SplashScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const QueueMusicPage(title: 'QueueMusic'));
+  runApp(ChangeNotifierProvider(
+      create: (context) => Session(),
+      child: const QueueMusicPage(title: 'QueueMusic',),
+  ));
 }
 
 class QueueMusicPage extends StatefulWidget {

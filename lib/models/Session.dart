@@ -5,6 +5,7 @@ class Session with ChangeNotifier implements Exception {
 
   late String _sessionCode;
   late String _hostUser;
+  late String _isHost;
   bool inSession = false;
 
   String get sessionCode {
@@ -23,6 +24,12 @@ class Session with ChangeNotifier implements Exception {
 
   set hostUser(String hostUser) {
     _hostUser = hostUser;
+  }
+
+  String get isHost => _isHost;
+
+  set isHost(String value) {
+    _isHost = value;
   }
 
   void joinSession(String hostUser, String sessionCode) {

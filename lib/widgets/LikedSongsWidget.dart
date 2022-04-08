@@ -33,7 +33,7 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
                   children: [_buildStorageNotAvailableTile()],
                 );
               }
-              if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
                 if (snapshot.data!.isEmpty) {
                   return _buildNoSongFoundTile();
                 }
@@ -74,7 +74,7 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
       subtitle: Text(song.authors, style: TextStyle(color: QueueMusicColor.grey),),
       trailing: IconButton(
         onPressed: () {
-          DataHelper.db?.deleteSong(song.id);
+          DataHelper.db!.deleteSong(song.id);
           setState(() {});
         },
         icon: const Icon(Icons.delete),

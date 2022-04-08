@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
 import 'package:queuemusic/widgets/TextFieldWidget.dart';
+import 'package:uuid/uuid.dart';
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({Key? key}) : super(key: key);
@@ -12,9 +14,6 @@ class MenuWidget extends StatefulWidget {
 }
 
 class _MenuWidgetState extends State<MenuWidget> {
-
-  TextEditingController usernameController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -28,12 +27,6 @@ class _MenuWidgetState extends State<MenuWidget> {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                TextFieldWidget(
-                    usernameController,
-                    "Username",
-                    32,
-                    BoolWrapper(true)
-                ),
                 SizedBox(height: 15,),
                 ListTile(
                   title: Text("Host Session"),
@@ -53,7 +46,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                     color: QueueMusicColor.green,
                     iconSize: 40,
                   ),
-                )
+                ),
               ],
             ),
           ),
