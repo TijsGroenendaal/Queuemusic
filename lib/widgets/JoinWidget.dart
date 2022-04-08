@@ -80,19 +80,15 @@ class _JoinWidgetState extends State<JoinWidget> {
   }
   
   void _join() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("sessions")
-        .where("sessionCode", isEqualTo: sessionCodeController.value.text)
-        .where("activeUntil", isGreaterThan: DateTime.now())
-        .where("open", isEqualTo: true)
-        .get();
+    DocumentSnapshot doc = await FirebaseFirestore.instance.collection("sessions")
+        .doc(sessionCodeController.value.text).get();
 
-    if (querySnapshot.docs.isEmpty) {
+    print(doc.data());
+    if (!doc.exists || doc.get("open") == false || Timestamp.now().compareTo(doc.get("activeUntil")) == 1) {
       SnackbarHelper.deploy(Text("Invalid Session Code"), context);
       return;
     }
-
-    QueryDocumentSnapshot doc = querySnapshot.docs[0];
-    Provider.of<Session>(context, listen: false).joinSession(doc.get("host"), doc.get("sessionCode"));
+    Provider.of<Session>(context, listen: false).joinSession(doc.get("host"), doc.id);
     Navigator.pop(context);
   }
 }

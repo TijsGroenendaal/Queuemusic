@@ -79,14 +79,13 @@ class _HostWidgetState extends State<HostWidget> {
           .where("open", isEqualTo: true)
           .get();
       if (snapshot.docs.isNotEmpty) {
-        Provider.of<Session>(context, listen: false).joinSession(snapshot.docs[0].get("host"), snapshot.docs[0].get("sessionCode"));
+        Provider.of<Session>(context, listen: false).joinSession(snapshot.docs[0].get("host"), snapshot.docs[0].id);
         Navigator.pop(context);
         return;
       }
       String sessionCode = const Uuid().v1().substring(24);
       Provider.of<Session>(context, listen: false).joinSession(user.user!.uid, sessionCode);
-      FirebaseFirestore.instance.collection("sessions").add({
-        "sessionCode" : sessionCode,
+      FirebaseFirestore.instance.collection("sessions").doc(sessionCode).set({
         "activeUntil" : DateTime.now().add(Duration(hours: 2)),
         "open": true,
         "host": user.user!.uid,

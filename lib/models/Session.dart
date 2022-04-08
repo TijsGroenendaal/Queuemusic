@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 
 class Session with ChangeNotifier implements Exception {
@@ -5,6 +7,7 @@ class Session with ChangeNotifier implements Exception {
 
   late String _sessionCode;
   late String _hostUser;
+  late bool isHost;
   bool _inSession = false;
 
   bool get inSession => _inSession;
@@ -30,6 +33,7 @@ class Session with ChangeNotifier implements Exception {
   void joinSession(String hostUser, String sessionCode) {
     this.hostUser = hostUser;
     this.sessionCode = sessionCode;
+    isHost = (hostUser == FirebaseAuth.instance.currentUser?.uid);
     _inSession = true;
 
     notifyListeners();
@@ -39,5 +43,13 @@ class Session with ChangeNotifier implements Exception {
     _inSession = false;
 
     notifyListeners();
+  }
+
+  void closeSession() async {
+    await FirebaseFirestore.instance.collection("sessions").doc(sessionCode).update({
+      "open": false
+    });
+    await FirebaseAuth.instance.signOut();
+    leaveSession();
   }
 }
