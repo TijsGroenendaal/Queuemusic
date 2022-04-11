@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:uuid/uuid.dart';
 
 class Session with ChangeNotifier implements Exception {
   String error() => "Not In Session";
@@ -9,6 +10,9 @@ class Session with ChangeNotifier implements Exception {
   late String _hostUser;
   late bool isHost;
   bool _inSession = false;
+  late String _userSessionId;
+
+  String get userSessionId => _userSessionId;
 
   bool get inSession => _inSession;
 
@@ -35,6 +39,7 @@ class Session with ChangeNotifier implements Exception {
     this.sessionCode = sessionCode;
     isHost = (hostUser == FirebaseAuth.instance.currentUser?.uid);
     _inSession = true;
+    _userSessionId = Uuid().v1();
 
     notifyListeners();
   }

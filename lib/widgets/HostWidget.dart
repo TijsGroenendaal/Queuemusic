@@ -89,7 +89,6 @@ class _HostWidgetState extends State<HostWidget> {
         "activeUntil" : DateTime.now().add(Duration(hours: 2)),
         "open": true,
         "host": user.user!.uid,
-        "songs": []
       });
       Navigator.pop(context);
     } catch(e) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queuemusic/widgets/MenuWidget.dart';
+import 'package:queuemusic/widgets/SessionWidget.dart';
 
 import '../models/Session.dart';
 
@@ -17,9 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<Session>(
         builder: (context, session, child) {
           if (session.inSession) {
-            return Scaffold(
-              body: Center(child: Text("SESSION"),),
-            );
+            return const SessionWidget();
           } else {
             return const MenuWidget();
           }
