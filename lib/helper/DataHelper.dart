@@ -1,20 +1,24 @@
 import 'dart:io' show Directory;
 
+import 'package:path/path.dart' as paths;
 import 'package:path_provider/path_provider.dart';
 import 'package:queuemusic/helper/SqlfiteHelper.dart';
 import 'package:queuemusic/helper/StorageSolution.dart';
-import 'package:path/path.dart' as paths;
 import 'package:sqflite/sqflite.dart';
+
+import 'Cache.dart';
 
 class DataHelper {
 
-  static StorageSolution? db;
+  static late StorageSolution? db;
+  static late Cache cache;
 
   static Future<void> initialize() async {
-    _initializeDatabase();
+    await _initializeDatabase();
+    cache = Cache();
   }
 
-  static void _initializeDatabase() async {
+  static Future<void> _initializeDatabase() async {
     Directory defPath = await getApplicationDocumentsDirectory();
     String databasePath = paths.join(defPath.path, 'queuemusic.db');
 

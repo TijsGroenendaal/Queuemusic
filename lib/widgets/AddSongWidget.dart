@@ -60,7 +60,7 @@ class AddSongWidget extends StatelessWidget {
       SnackbarHelper.deploy(const Text("Fill in all input field"), context);
     }
 
-    DataHelper.db!.addSong(Song(
+    DataHelper.cache.addSong(Song(
         albumController.value.text,
         songNameController.value.text,
         authorController.value.text,

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -80,7 +78,7 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
   }
 
   Future<List<Song>> _getSongs() async {
-    return DataHelper.db!.loadSongs();
+    return DataHelper.cache.getSongs();
   }
 
   ListTile _buildSongTile(Song song) {
@@ -92,7 +90,7 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
           List<Widget> trailing = [
             IconButton(
               onPressed: () {
-                DataHelper.db!.deleteSong(song.id);
+                DataHelper.cache.deleteSong(song.id);
                 setState(() {});
               },
               icon: const Icon(Icons.delete),
@@ -113,7 +111,6 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
                     await collectionReference.add(
                         SessionSong(song.songname, song.authors, song.album, session.userSessionId).toMap()
                     ).catchError((error) {
-                      print(error.toString());
                       SnackbarHelper.deploy(const Text("Could not add Song to the Queue"), context);
                     });
                     SnackbarHelper.deploy(const Text("Song added"), context);

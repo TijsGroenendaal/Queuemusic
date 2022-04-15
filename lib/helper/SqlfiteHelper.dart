@@ -10,7 +10,7 @@ class SqfliteHelper implements StorageSolution {
   SqfliteHelper(this._db);
 
   @override
-  Future<List<Song>> loadSongs() async {
+  Future<List<Song>> getSongs() async {
     List<Song> toReturn = [];
     await _db.rawQuery("SELECT * FROM likedsongs;").then((value) => value.forEach((element) {
       toReturn.add(Song(
