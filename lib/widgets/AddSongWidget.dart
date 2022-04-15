@@ -58,6 +58,7 @@ class AddSongWidget extends StatelessWidget {
   void _addSong(BuildContext context) {
     if (songNameController.value.text.isEmpty || authorController.value.text.isEmpty) {
       SnackbarHelper.deploy(const Text("Fill in all input field"), context);
+      return;
     }
 
     DataHelper.cache.addSong(Song(
