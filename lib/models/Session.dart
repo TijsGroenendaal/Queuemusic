@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:queuemusic/helper/IdHelper.dart';
 import 'package:uuid/uuid.dart';
 
 class Session with ChangeNotifier implements Exception {
@@ -39,7 +40,7 @@ class Session with ChangeNotifier implements Exception {
     this.sessionCode = sessionCode;
     isHost = (hostUser == FirebaseAuth.instance.currentUser?.uid);
     _inSession = true;
-    _userSessionId = Uuid().v1();
+    IdHelper.getDeviceId().then((value) => _userSessionId = value!);
 
     notifyListeners();
   }
