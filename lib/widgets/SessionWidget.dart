@@ -88,8 +88,8 @@ class _SessionWidgetState extends State<SessionWidget> {
                 bool hasVoted = song.votedBy.where((element) => element == session.userSessionId).isNotEmpty;
 
                 return ListTile(
-                    title: Text("${song.songName}, ${song.album}"),
-                    subtitle: Text("${song.authors}", style: const TextStyle(color: QueueMusicColor.grey),),
+                    title: Text("${song.songName}, ${song.authors}"),
+                    subtitle: Text(song.album, style: const TextStyle(color: QueueMusicColor.grey),),
                     shape: RoundedRectangleBorder(
                         side: BorderSide(
                             color: session.userSessionId == song.user ? QueueMusicColor.white : QueueMusicColor.green,

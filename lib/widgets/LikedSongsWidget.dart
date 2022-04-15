@@ -83,8 +83,8 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
 
   ListTile _buildSongTile(Song song) {
     return ListTile(
-      title: Text("${song.songname}, ${song.album}"),
-      subtitle: Text(song.authors, style: TextStyle(color: QueueMusicColor.grey),),
+      title: Text("${song.songname}, ${song.authors}"),
+      subtitle: Text(song.album, style: const TextStyle(color: QueueMusicColor.grey),),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
