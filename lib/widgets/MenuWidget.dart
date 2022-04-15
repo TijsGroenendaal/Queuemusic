@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
-import 'package:queuemusic/widgets/JoinWidget.dart';
 import 'package:queuemusic/widgets/HostWidget.dart';
+import 'package:queuemusic/widgets/JoinWidget.dart';
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({Key? key}) : super(key: key);

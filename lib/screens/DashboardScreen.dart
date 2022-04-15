@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
 import 'package:queuemusic/screens/HomeScreen.dart';
-import 'package:queuemusic/widgets/MenuWidget.dart';
+
 import '../widgets/LikedSongsWidget.dart';
 
 class DashboardScreen extends StatefulWidget {

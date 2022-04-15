@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
-import 'package:queuemusic/helper/SnackbarHelper.dart';
 
 class QrScannerWidget extends StatefulWidget {
   const QrScannerWidget({
