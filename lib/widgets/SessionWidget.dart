@@ -5,6 +5,7 @@ import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
 import 'package:queuemusic/helper/SnackbarHelper.dart';
 import 'package:queuemusic/models/SessionSong.dart';
+import 'package:queuemusic/widgets/QrShareWidget.dart';
 
 import '../models/Session.dart';
 
@@ -31,17 +32,37 @@ class _SessionWidgetState extends State<SessionWidget> {
       data: theme(),
       child: Scaffold(
         appBar: AppBar(
+          title: ElevatedButton.icon(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.black.withOpacity(0.2))
+              ),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => QrShareWidget(sessionId: session.sessionCode,))
+                );
+              },
+              icon: Icon(Icons.qr_code),
+              label: Text("QR")
+          ),
           actions: [
-            session.isHost ? IconButton(
-                onPressed: () async {
-                  session.closeSession();
-                },
-                icon: Icon(Icons.close)
-            ) : IconButton(
-                onPressed: () {
-                  session.leaveSession();
-                },
-                icon: Icon(Icons.exit_to_app)
+            session.isHost ? ElevatedButton.icon(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.black.withOpacity(0.2))
+              ),
+              onPressed: () async {
+                session.closeSession();
+              },
+              icon: const Icon(Icons.close),
+              label: const Text("Close session"),
+            ) : ElevatedButton.icon(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.black.withOpacity(0.2))
+              ),
+              onPressed: () {
+                session.leaveSession();
+              },
+              icon: const Icon(Icons.exit_to_app),
+              label: const Text("Leave Session"),
             )
           ],
         ),
