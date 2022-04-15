@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queuemusic/common/QueueMusicColor.dart';
 import 'package:queuemusic/common/QueueMusicTheme.dart';
+import 'package:queuemusic/helper/SnackbarHelper.dart';
 import 'package:queuemusic/widgets/TextFieldWidget.dart';
 import 'package:uuid/uuid.dart';
 
@@ -92,7 +93,7 @@ class _HostWidgetState extends State<HostWidget> {
       });
       Navigator.pop(context);
     } catch(e) {
-      // TODO login failed popup
+      SnackbarHelper.deploy(const Text("Incorrect Credentials"), context);
     }
   }
 }
