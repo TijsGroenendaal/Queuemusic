@@ -85,48 +85,40 @@ class _LikedSongsWidgetState extends State<LikedSongsWidget> {
     return ListTile(
       title: Text("${song.songname}, ${song.album}"),
       subtitle: Text(song.authors, style: TextStyle(color: QueueMusicColor.grey),),
-      trailing: Builder(
-        builder: (context) {
-          List<Widget> trailing = [
-            IconButton(
-              onPressed: () {
-                DataHelper.cache.deleteSong(song.id);
-                setState(() {});
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            onPressed: () {
+              DataHelper.cache.deleteSong(song.id);
+              setState(() {});
+            },
+            icon: const Icon(Icons.delete),
+            iconSize: 25,
+            color: QueueMusicColor.error,
+          ),
+          IconButton(
+              onPressed: () async {
+                CollectionReference collectionReference = FirebaseFirestore.instance.collection("sessions").doc(session.sessionCode).collection("songs");
+                QuerySnapshot snapshot = await collectionReference
+                    .where("authors", isEqualTo: song.authors)
+                    .where("songName", isEqualTo: song.songname).get();
+                if (snapshot.size >= 1) {
+                  SnackbarHelper.deploy(const Text("Song is already in Queue"), context);
+                } else {
+                  await collectionReference.add(
+                      SessionSong(song.songname, song.authors, song.album, session.userSessionId).toMap()
+                  ).catchError((error) {
+                    SnackbarHelper.deploy(const Text("Could not add Song to the Queue"), context);
+                  });
+                  SnackbarHelper.deploy(const Text("Song added"), context);
+                }
               },
-              icon: const Icon(Icons.delete),
-              iconSize: 25,
-              color: QueueMusicColor.error,
-            )
-          ];
-          if (session.inSession && !session.isHost) {
-            trailing.add(IconButton(
-                onPressed: () async {
-                  CollectionReference collectionReference = FirebaseFirestore.instance.collection("sessions").doc(session.sessionCode).collection("songs");
-                  QuerySnapshot snapshot = await collectionReference
-                      .where("authors", isEqualTo: song.authors)
-                      .where("songName", isEqualTo: song.songname).get();
-                  if (snapshot.size >= 1) {
-                    SnackbarHelper.deploy(const Text("Song is already in Queue"), context);
-                  } else {
-                    await collectionReference.add(
-                        SessionSong(song.songname, song.authors, song.album, session.userSessionId).toMap()
-                    ).catchError((error) {
-                      SnackbarHelper.deploy(const Text("Could not add Song to the Queue"), context);
-                    });
-                    SnackbarHelper.deploy(const Text("Song added"), context);
-                  }
-                },
-                icon: const Icon(Icons.queue),
-                color: QueueMusicColor.green
-            ),
-            );
-          }
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: trailing,
-          );
-        },
-      )
+              icon: const Icon(Icons.queue),
+              color: QueueMusicColor.green
+          ),
+        ],
+    ),
     );
   }
 
