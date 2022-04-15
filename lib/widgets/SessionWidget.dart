@@ -97,43 +97,63 @@ class _SessionWidgetState extends State<SessionWidget> {
                         ),
                         borderRadius: BorderRadius.circular(5)
                     ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () async {
-                            DocumentReference doc = queue.data!.docs[index].reference;
-                            List<dynamic> votedBy = (await doc.get()).get("votedBy");
-                            if (votedBy.where((element) => element == session.userSessionId ).isNotEmpty) {
-                              SnackbarHelper.deploy(const Text("Already voted"), context);
-                            } else {
-                              doc.update({
-                                "votedBy": FieldValue.arrayUnion([session.userSessionId]),
-                                "votes" : FieldValue.increment(1),
-                              });
-                            }
-                          },
-                          icon: const Icon(Icons.arrow_upward),
-                          color: hasVoted ? QueueMusicColor.white : QueueMusicColor.green,
-                        ),
-                        Text(song.votes.toString()),
-                        IconButton(
-                          onPressed: () async {
-                            DocumentReference doc = queue.data!.docs[index].reference;
-                            List<dynamic> votedBy = (await doc.get()).get("votedBy");
-                            if (votedBy.where((element) => element == session.userSessionId ).isNotEmpty) {
-                              SnackbarHelper.deploy(const Text("Already voted"), context);
-                            } else {
-                              doc.update({
-                                "votedBy": FieldValue.arrayUnion([session.userSessionId]),
-                                "votes" : FieldValue.increment(-1),
-                              });
-                            }
-                          },
-                          icon: const Icon(Icons.arrow_downward),
-                          color: hasVoted ? QueueMusicColor.white : QueueMusicColor.green,
-                        )
-                      ],
+                    trailing: Builder(
+                      builder: (context) {
+                        if (session.isHost) {
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(song.votes.toString()),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                color: QueueMusicColor.error,
+                                onPressed: () {
+                                  FirebaseFirestore.instance.collection("sessions")
+                                      .doc(session.sessionCode).collection("songs").doc(queue.data!.docs[index].id).delete();
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                                DocumentReference doc = queue.data!.docs[index].reference;
+                                List<dynamic> votedBy = (await doc.get()).get("votedBy");
+                                if (votedBy.where((element) => element == session.userSessionId ).isNotEmpty) {
+                                  SnackbarHelper.deploy(const Text("Already voted"), context);
+                                } else {
+                                  doc.update({
+                                    "votedBy": FieldValue.arrayUnion([session.userSessionId]),
+                                    "votes" : FieldValue.increment(1),
+                                  });
+                                }
+                              },
+                              icon: const Icon(Icons.arrow_upward),
+                              color: hasVoted ? QueueMusicColor.white : QueueMusicColor.green,
+                            ),
+                            Text(song.votes.toString()),
+                            IconButton(
+                              onPressed: () async {
+                                DocumentReference doc = queue.data!.docs[index].reference;
+                                List<dynamic> votedBy = (await doc.get()).get("votedBy");
+                                if (votedBy.where((element) => element == session.userSessionId ).isNotEmpty) {
+                                  SnackbarHelper.deploy(const Text("Already voted"), context);
+                                } else {
+                                  doc.update({
+                                    "votedBy": FieldValue.arrayUnion([session.userSessionId]),
+                                    "votes" : FieldValue.increment(-1),
+                                  });
+                                }
+                              },
+                              icon: const Icon(Icons.arrow_downward),
+                              color: hasVoted ? QueueMusicColor.white : QueueMusicColor.green,
+                            )
+                          ],
+                        );
+                      }
                     )
                 );
               },
