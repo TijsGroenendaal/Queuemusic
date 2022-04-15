@@ -11,7 +11,7 @@ class QrShareWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Share this Session"),
+        title: Text("SessionID: " + sessionId),
       ),
       body: Center(
         child: QrImage(
